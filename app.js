@@ -1,198 +1,485 @@
-// ========================================
-// Hasan Daoud Portfolio Slider
-// app.js
-// ========================================
+/*==================================================
+    HASAN DAOUD PORTFOLIO
+    app.js
+    PART 1
+==================================================*/
 
-document.addEventListener("DOMContentLoaded", () => {
+// ==============================
+// SELECT ELEMENTS
+// ==============================
 
-    const slides = document.querySelectorAll(".carousel .list .item");
-    const nextBtn = document.getElementById("next");
-    const prevBtn = document.getElementById("prev");
+const slides = document.querySelectorAll(".carousel .item");
 
-    const thumbnails = document.querySelectorAll(".thumbnail .item");
+const navLinks = document.querySelectorAll("nav a");
 
-    let current = 0;
+const thumbnails = document.querySelectorAll(".thumbnail .item");
 
-    //------------------------------------
-    // Show Slide
-    //------------------------------------
+const nextBtn = document.getElementById("next");
 
-    function showSlide(index){
+const prevBtn = document.getElementById("prev");
 
-        if(index < 0){
-            index = slides.length - 1;
-        }
+const carousel = document.querySelector(".carousel");
 
-        if(index >= slides.length){
-            index = 0;
-        }
+// ==============================
+// SETTINGS
+// ==============================
 
-        slides.forEach(slide=>{
-            slide.classList.remove("active");
-        });
+let currentSlide = 0;
 
-        thumbnails.forEach(item=>{
-            item.classList.remove("active");
-        });
+let autoPlay = null;
 
-        slides[index].classList.add("active");
+let autoPlayDelay = 10000; // 10 seconds
 
-        if(thumbnails[index]){
-            thumbnails[index].classList.add("active");
-        }
+// ==============================
+// SHOW SLIDE
+// ==============================
 
-        current = index;
+function showSlide(index){
 
-    }
+    // Wrap around
 
-    //------------------------------------
-    // Next
-    //------------------------------------
+    if(index >= slides.length){
 
-    function nextSlide(){
-
-        showSlide(current + 1);
+        index = 0;
 
     }
 
-    //------------------------------------
-    // Previous
-    //------------------------------------
+    if(index < 0){
 
-    function prevSlide(){
-
-        showSlide(current - 1);
+        index = slides.length - 1;
 
     }
 
-    //------------------------------------
-    // Buttons
-    //------------------------------------
+    // Remove active class
 
-    if(nextBtn){
+    slides.forEach(slide=>{
 
-        nextBtn.addEventListener("click",nextSlide);
-
-    }
-
-    if(prevBtn){
-
-        prevBtn.addEventListener("click",prevSlide);
-
-    }
-
-    //------------------------------------
-    // Thumbnail Click
-    //------------------------------------
-
-    thumbnails.forEach((thumb,index)=>{
-
-        thumb.addEventListener("click",()=>{
-
-            showSlide(index);
-
-        });
+        slide.classList.remove("active");
 
     });
 
-    //------------------------------------
-    // Keyboard
-    //------------------------------------
+    navLinks.forEach(link=>{
 
-    document.addEventListener("keydown",(e)=>{
-
-        if(e.key==="ArrowRight"){
-
-            nextSlide();
-
-        }
-
-        if(e.key==="ArrowLeft"){
-
-            prevSlide();
-
-        }
+        link.classList.remove("active");
 
     });
 
-    //------------------------------------
-    // Swipe Support
-    //------------------------------------
+    thumbnails.forEach(item=>{
 
-    let startX = 0;
-    let endX = 0;
-
-    const carousel = document.querySelector(".carousel");
-
-    carousel.addEventListener("touchstart",(e)=>{
-
-        startX = e.changedTouches[0].screenX;
+        item.classList.remove("active");
 
     });
 
-    carousel.addEventListener("touchend",(e)=>{
+    // Add active class
 
-        endX = e.changedTouches[0].screenX;
+    slides[index].classList.add("active");
 
-        let distance = endX - startX;
+    if(navLinks[index]){
 
-        if(distance > 60){
+        navLinks[index].classList.add("active");
 
-            prevSlide();
+    }
 
-        }
+    if(thumbnails[index]){
 
-        if(distance < -60){
+        thumbnails[index].classList.add("active");
 
-            nextSlide();
+    }
 
-        }
+    currentSlide = index;
 
-    });
+}
 
-    //------------------------------------
-    // Mouse Wheel (Optional)
-    //------------------------------------
+// ==============================
+// NEXT
+// ==============================
 
-    carousel.addEventListener("wheel",(e)=>{
+function nextSlide(){
+
+    showSlide(currentSlide + 1);
+
+}
+
+// ==============================
+// PREVIOUS
+// ==============================
+
+function prevSlide(){
+
+    showSlide(currentSlide - 1);
+
+}
+/*==================================================
+    PART 2
+    EVENTS • AUTOPLAY • PAUSE
+==================================================*/
+
+
+// ==============================
+// NAVIGATION
+// ==============================
+
+navLinks.forEach((link,index)=>{
+
+    link.addEventListener("click",(e)=>{
 
         e.preventDefault();
 
-        if(e.deltaY > 0){
+        stopAutoPlay();
 
-            nextSlide();
+        showSlide(index);
 
-        }else{
-
-            prevSlide();
-
-        }
-
-    },{passive:false});
-
-    //------------------------------------
-    // Initialize
-    //------------------------------------
-
-    showSlide(0);
-    // ===============================
-// MENU NAVIGATION
-// ===============================
-
-const menuLinks = document.querySelectorAll("nav a");
-
-menuLinks.forEach(link => {
-
-    link.addEventListener("click", function(e){
-
-        e.preventDefault();
-
-        let slide = parseInt(this.dataset.slide);
-
-        showSlide(slide);
+        restartAutoPlay();
 
     });
 
 });
 
+
+// ==============================
+// THUMBNAILS
+// ==============================
+
+thumbnails.forEach((thumb,index)=>{
+
+    thumb.addEventListener("click",()=>{
+
+        stopAutoPlay();
+
+        showSlide(index);
+
+        restartAutoPlay();
+
+    });
+
 });
+
+
+// ==============================
+// NEXT BUTTON
+// ==============================
+
+nextBtn.addEventListener("click",()=>{
+
+    stopAutoPlay();
+
+    nextSlide();
+
+    restartAutoPlay();
+
+});
+
+
+// ==============================
+// PREVIOUS BUTTON
+// ==============================
+
+prevBtn.addEventListener("click",()=>{
+
+    stopAutoPlay();
+
+    prevSlide();
+
+    restartAutoPlay();
+
+});
+
+
+// ==============================
+// AUTO PLAY
+// ==============================
+
+function startAutoPlay(){
+
+    stopAutoPlay();
+
+    autoPlay = setInterval(()=>{
+
+        nextSlide();
+
+    },autoPlayDelay);
+
+}
+
+
+// ==============================
+// STOP AUTO PLAY
+// ==============================
+
+function stopAutoPlay(){
+
+    clearInterval(autoPlay);
+
+}
+
+
+// ==============================
+// RESTART
+// ==============================
+
+function restartAutoPlay(){
+
+    stopAutoPlay();
+
+    autoPlay = setInterval(()=>{
+
+        nextSlide();
+
+    },autoPlayDelay);
+
+}
+
+
+
+// ==============================
+// PAUSE WHEN READING
+// ==============================
+
+const contentBoxes = document.querySelectorAll(".content");
+
+contentBoxes.forEach(box=>{
+
+    box.addEventListener("mouseenter",()=>{
+
+        stopAutoPlay();
+
+    });
+
+    box.addEventListener("mouseleave",()=>{
+
+        restartAutoPlay();
+
+    });
+
+});
+
+
+
+// ==============================
+// PAUSE WHEN SCROLLING
+// ==============================
+
+contentBoxes.forEach(box=>{
+
+    box.addEventListener("scroll",()=>{
+
+        stopAutoPlay();
+
+        clearTimeout(box.scrollTimer);
+
+        box.scrollTimer = setTimeout(()=>{
+
+            restartAutoPlay();
+
+        },4000);
+
+    });
+
+});
+
+
+
+// ==============================
+// PAUSE WHEN WINDOW HIDDEN
+// ==============================
+
+document.addEventListener("visibilitychange",()=>{
+
+    if(document.hidden){
+
+        stopAutoPlay();
+
+    }else{
+
+        restartAutoPlay();
+
+    }
+
+});
+/*==================================================
+    PART 3
+    MOBILE • KEYBOARD • INIT
+==================================================*/
+
+
+// ==============================
+// KEYBOARD SUPPORT
+// ==============================
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="ArrowRight"){
+
+        stopAutoPlay();
+
+        nextSlide();
+
+        restartAutoPlay();
+
+    }
+
+    if(e.key==="ArrowLeft"){
+
+        stopAutoPlay();
+
+        prevSlide();
+
+        restartAutoPlay();
+
+    }
+
+});
+
+
+// ==============================
+// MOBILE SWIPE
+// ==============================
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+carousel.addEventListener("touchstart",(e)=>{
+
+    touchStartX = e.changedTouches[0].screenX;
+
+},{passive:true});
+
+
+carousel.addEventListener("touchend",(e)=>{
+
+    touchEndX = e.changedTouches[0].screenX;
+
+    handleSwipe();
+
+},{passive:true});
+
+
+function handleSwipe(){
+
+    const distance = touchStartX - touchEndX;
+
+    if(Math.abs(distance) < 50){
+
+        return;
+
+    }
+
+    stopAutoPlay();
+
+    if(distance > 0){
+
+        nextSlide();
+
+    }else{
+
+        prevSlide();
+
+    }
+
+    restartAutoPlay();
+
+}
+
+
+
+// ==============================
+// PROGRESS BAR
+// ==============================
+
+const progressBar = document.querySelector(".time");
+
+function startProgress(){
+
+    if(!progressBar) return;
+
+    progressBar.style.transition = "none";
+
+    progressBar.style.width = "0%";
+
+    requestAnimationFrame(()=>{
+
+        requestAnimationFrame(()=>{
+
+            progressBar.style.transition =
+                `width ${autoPlayDelay}ms linear`;
+
+            progressBar.style.width = "100%";
+
+        });
+
+    });
+
+}
+
+function restartProgress(){
+
+    startProgress();
+
+}
+
+
+
+// ==============================
+// UPDATE SHOWSLIDE
+// ==============================
+
+const originalShowSlide = showSlide;
+
+showSlide = function(index){
+
+    originalShowSlide(index);
+
+    restartProgress();
+
+};
+
+
+
+// ==============================
+// PAUSE WHEN MOUSE OVER CAROUSEL
+// ==============================
+
+carousel.addEventListener("mouseenter",()=>{
+
+    stopAutoPlay();
+
+});
+
+
+carousel.addEventListener("mouseleave",()=>{
+
+    restartAutoPlay();
+
+});
+
+
+
+// ==============================
+// WINDOW RESIZE
+// ==============================
+
+window.addEventListener("resize",()=>{
+
+    showSlide(currentSlide);
+
+});
+
+
+
+// ==============================
+// INITIALIZE
+// ==============================
+
+showSlide(0);
+
+startAutoPlay();
+
+startProgress();
+
+
+
+// ==============================
+// CONSOLE MESSAGE
+// ==============================
+
+console.log("Hasan Daoud Portfolio Loaded Successfully");
