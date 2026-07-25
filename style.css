@@ -1,14 +1,12 @@
-/* =====================================================
-   HASAN DAOUD PORTFOLIO
-   STYLE.CSS - PART 1
-   Author: ChatGPT
-===================================================== */
+/*==================================================
+    HASAN DAOUD PORTFOLIO
+    STYLE.CSS
+    PART 1
+===================================================*/
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-/* ===========================
-   RESET
-=========================== */
+/*==============================
+    RESET
+==============================*/
 
 *{
     margin:0;
@@ -21,36 +19,51 @@ html{
 }
 
 body{
+
     font-family:'Poppins',sans-serif;
-    background:#0d0d0d;
-    color:#ffffff;
-    overflow-x:hidden;
+    background:#000;
+    color:#fff;
+    overflow:hidden;
+
 }
 
-/* ===========================
-   SCROLL BAR
-=========================== */
+/*==============================
+    ROOT VARIABLES
+==============================*/
 
-::-webkit-scrollbar{
-    width:10px;
+:root{
+
+    --primary:#f7b500;
+    --secondary:#ffffff;
+    --glass:rgba(255,255,255,.08);
+    --glassBorder:rgba(255,255,255,.18);
+    --shadow:0 20px 45px rgba(0,0,0,.45);
+
+    --transition:.45s ease;
+
 }
 
-::-webkit-scrollbar-track{
-    background:#111;
+/*==============================
+    LINKS
+==============================*/
+
+a{
+
+    text-decoration:none;
+    color:inherit;
+
 }
 
-::-webkit-scrollbar-thumb{
-    background:#f1683a;
-    border-radius:20px;
+img{
+
+    display:block;
+    max-width:100%;
+
 }
 
-::-webkit-scrollbar-thumb:hover{
-    background:#ff885f;
-}
-
-/* ===========================
-   HEADER
-=========================== */
+/*==============================
+    HEADER
+==============================*/
 
 header{
 
@@ -61,7 +74,7 @@ header{
 
     width:100%;
 
-    height:80px;
+    padding:20px 60px;
 
     display:flex;
 
@@ -69,29 +82,35 @@ header{
 
     align-items:center;
 
-    padding:0 80px;
+    z-index:1000;
 
-    z-index:999;
-
-    background:rgba(0,0,0,.35);
-
-    backdrop-filter:blur(15px);
-
-    border-bottom:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(to bottom,
+    rgba(0,0,0,.70),
+    rgba(0,0,0,0));
 
 }
+
+/*==============================
+    LOGO
+==============================*/
 
 .logo{
 
-    font-size:30px;
+    font-size:32px;
 
     font-weight:800;
 
-    letter-spacing:2px;
+    letter-spacing:3px;
 
-    color:#ffffff;
+    color:var(--primary);
+
+    text-transform:uppercase;
 
 }
+
+/*==============================
+    NAVIGATION
+==============================*/
 
 nav{
 
@@ -103,21 +122,21 @@ nav{
 
 nav a{
 
-    color:white;
-
-    text-decoration:none;
+    position:relative;
 
     font-size:16px;
 
-    transition:.3s;
+    font-weight:500;
 
-    position:relative;
+    color:#fff;
+
+    transition:var(--transition);
 
 }
 
 nav a:hover{
 
-    color:#f1683a;
+    color:var(--primary);
 
 }
 
@@ -135,9 +154,9 @@ nav a::after{
 
     height:2px;
 
-    background:#f1683a;
+    background:var(--primary);
 
-    transition:.35s;
+    transition:var(--transition);
 
 }
 
@@ -147,9 +166,9 @@ nav a:hover::after{
 
 }
 
-/* ===========================
-   CAROUSEL
-=========================== */
+/*==============================
+    CAROUSEL
+==============================*/
 
 .carousel{
 
@@ -159,15 +178,33 @@ nav a:hover::after{
 
     height:100vh;
 
+    min-height:100dvh;
+
     overflow:hidden;
+
+    background:#000;
 
 }
 
-/* ===========================
-   EACH SLIDE
-=========================== */
+/*==============================
+    SLIDE LIST
+==============================*/
 
-.carousel .item{
+.carousel .list{
+
+    width:100%;
+
+    height:100%;
+
+    position:relative;
+
+}
+
+/*==============================
+    EACH SLIDE
+==============================*/
+
+.carousel .list .item{
 
     position:absolute;
 
@@ -175,23 +212,33 @@ nav a:hover::after{
 
     opacity:0;
 
-    transition:1s;
+    visibility:hidden;
+
+    transition:opacity .8s ease;
 
 }
 
-.carousel .item.active{
+.carousel .list .item.active{
 
     opacity:1;
 
-    z-index:5;
+    visibility:visible;
 
 }
+/*==================================================
+    PART 2
+    IMAGE + CONTENT
+===================================================*/
 
-/* ===========================
-   IMAGE
-=========================== */
+/*==============================
+    BACKGROUND IMAGE
+==============================*/
 
-.carousel .item img{
+.carousel .list .item img{
+
+    position:absolute;
+
+    inset:0;
 
     width:100%;
 
@@ -199,13 +246,23 @@ nav a:hover::after{
 
     object-fit:cover;
 
-    object-position:center;
+    object-position:center top;
+
+    z-index:1;
+
+    transition:transform .8s ease;
 
 }
 
-/* ===========================
-   DARK OVERLAY
-=========================== */
+.carousel .list .item.active img{
+
+    transform:scale(1.03);
+
+}
+
+/*==============================
+    DARK OVERLAY
+==============================*/
 
 .overlay{
 
@@ -214,22 +271,19 @@ nav a:hover::after{
     inset:0;
 
     background:linear-gradient(
-
-    to right,
-
-    rgba(0,0,0,.75),
-
-    rgba(0,0,0,.35),
-
-    rgba(0,0,0,.25)
-
+        to right,
+        rgba(0,0,0,.72),
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.12)
     );
+
+    z-index:2;
 
 }
 
-/* ===========================
-   CONTENT PANEL
-=========================== */
+/*==============================
+    CONTENT PANEL
+==============================*/
 
 .content{
 
@@ -237,259 +291,408 @@ nav a:hover::after{
 
     top:50%;
 
-    left:8%;
+    left:7%;
 
     transform:translateY(-50%);
 
-    width:650px;
+    width:520px;
 
     max-width:90%;
 
-    padding:45px;
-
-    border-radius:24px;
-
-    background:rgba(0,0,0,.32);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.10);
-
-    box-shadow:0 15px 45px rgba(0,0,0,.45);
-
-}
-
-/* ===========================
-   AUTHOR
-=========================== */
-
-.author{
-
-    font-size:60px;
-
-    font-weight:800;
-
-    line-height:1;
-
-    letter-spacing:3px;
-
-    margin-bottom:15px;
-
-    color:#fff;
-
-}
-
-/* ===========================
-   TITLE
-=========================== */
-
-.title{
-
-    font-size:24px;
-
-    font-weight:500;
-
-    color:#f7f7f7;
-
-    margin-bottom:25px;
-
-}
-
-/* ===========================
-   TOPIC
-=========================== */
-
-.topic{
-
-    font-size:40px;
-
-    font-weight:700;
-
-    color:#f1683a;
-
-    margin-bottom:25px;
-
-}
-
-/* ===========================
-   DESCRIPTION
-=========================== */
-
-.description{
-
-    max-height:260px;
+    max-height:75vh;
 
     overflow-y:auto;
 
-    padding-right:10px;
+    padding:35px;
 
-    font-size:17px;
+    border-radius:22px;
 
-    line-height:1.8;
+    background:rgba(0,0,0,.32);
 
-    color:#efefef;
+    backdrop-filter:blur(16px);
 
-}
+    -webkit-backdrop-filter:blur(16px);
 
-.description h3{
+    border:1px solid rgba(255,255,255,.18);
 
-    color:#f1683a;
+    box-shadow:0 18px 45px rgba(0,0,0,.45);
 
-    margin-top:20px;
-
-    margin-bottom:12px;
+    z-index:5;
 
 }
 
-.description ul{
+/*==============================
+    CUSTOM SCROLLBAR
+==============================*/
 
-    padding-left:22px;
+.content::-webkit-scrollbar{
+
+    width:8px;
 
 }
 
-.description li{
+.content::-webkit-scrollbar-track{
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+}
+
+.content::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:20px;
+
+}
+
+/*==============================
+    AUTHOR
+==============================*/
+
+.author{
+
+    font-size:48px;
+
+    font-weight:800;
+
+    color:#fff;
+
+    letter-spacing:3px;
+
+    line-height:1.1;
+
+    text-transform:uppercase;
 
     margin-bottom:8px;
 
 }
 
-/* ===========================
-   BUTTONS
-=========================== */
+/*==============================
+    TITLE
+==============================*/
+
+.title{
+
+    font-size:20px;
+
+    font-weight:500;
+
+    color:#d7d7d7;
+
+    margin-bottom:14px;
+
+}
+
+/*==============================
+    TOPIC
+==============================*/
+
+.topic{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+    text-transform:uppercase;
+
+}
+
+/*==============================
+    DESCRIPTION
+==============================*/
+
+.description{
+
+    font-size:15px;
+
+    line-height:1.8;
+
+    color:#f3f3f3;
+
+}
+
+.description p{
+
+    margin-bottom:16px;
+
+}
+
+.description h3{
+
+    margin-top:20px;
+
+    margin-bottom:12px;
+
+    color:var(--primary);
+
+    font-size:20px;
+
+}
+
+.description ul{
+
+    margin-left:22px;
+
+    margin-bottom:18px;
+
+}
+
+.description li{
+
+    margin-bottom:10px;
+
+}
+
+/*==============================
+    MOBILE IMPROVEMENTS
+==============================*/
+
+@media (max-width:768px){
+
+    .carousel .list .item img{
+
+        object-fit:cover;
+
+        object-position:center top;
+
+    }
+
+    .overlay{
+
+        background:linear-gradient(
+            to bottom,
+            rgba(0,0,0,.25),
+            rgba(0,0,0,.55),
+            rgba(0,0,0,.88)
+        );
+
+    }
+
+    .content{
+
+        width:88%;
+
+        left:50%;
+
+        top:58%;
+
+        transform:translate(-50%,-50%);
+
+        padding:20px;
+
+        max-height:58vh;
+
+        border-radius:18px;
+
+    }
+
+    .author{
+
+        font-size:30px;
+
+        letter-spacing:2px;
+
+    }
+
+    .title{
+
+        font-size:16px;
+
+    }
+
+    .topic{
+
+        font-size:24px;
+
+    }
+
+    .description{
+
+        font-size:14px;
+
+        line-height:1.6;
+
+    }
+
+}
+/*==================================================
+    PART 3
+    BUTTONS • THUMBNAILS • NAVIGATION
+===================================================*/
+
+/*==============================
+    BUTTON CONTAINER
+==============================*/
 
 .buttons{
 
     display:flex;
 
-    gap:20px;
+    gap:15px;
 
-    margin-top:35px;
+    flex-wrap:wrap;
+
+    margin-top:28px;
 
 }
+
+/*==============================
+    BUTTON STYLE
+==============================*/
 
 .buttons a{
 
-    text-decoration:none;
+    display:inline-flex;
 
-    padding:14px 34px;
+    justify-content:center;
+
+    align-items:center;
+
+    min-width:170px;
+
+    height:52px;
+
+    padding:0 28px;
 
     border-radius:50px;
 
+    font-size:15px;
+
     font-weight:600;
 
-    transition:.35s;
+    letter-spacing:.8px;
+
+    text-transform:uppercase;
+
+    transition:.35s ease;
 
 }
 
-/* Resume Button */
+/* Primary Button */
 
 .buttons a:first-child{
 
-    background:#f1683a;
+    background:var(--primary);
 
-    color:white;
+    color:#000;
+
+    box-shadow:0 12px 30px rgba(247,181,0,.35);
 
 }
 
 .buttons a:first-child:hover{
 
-    background:#ff885f;
+    transform:translateY(-4px);
 
-    transform:translateY(-3px);
+    box-shadow:0 20px 40px rgba(247,181,0,.45);
 
 }
 
-/* Contact Button */
+/* Secondary Button */
 
 .buttons a:last-child{
 
-    border:2px solid white;
+    color:#fff;
 
-    color:white;
+    border:2px solid rgba(255,255,255,.35);
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(10px);
 
 }
 
 .buttons a:last-child:hover{
 
-    background:white;
+    background:#fff;
 
-    color:black;
+    color:#000;
+
+    border-color:#fff;
+
+    transform:translateY(-4px);
 
 }
-/* =====================================================
-   HASAN DAOUD PORTFOLIO
-   STYLE.CSS - PART 2
-   Carousel Navigation & Animations
-===================================================== */
 
-
-/* ===========================
-   THUMBNAILS
-=========================== */
+/*==============================
+    THUMBNAILS
+==============================*/
 
 .thumbnail{
 
     position:absolute;
 
-    bottom:25px;
-
     left:50%;
+
+    bottom:28px;
 
     transform:translateX(-50%);
 
     display:flex;
 
-    gap:15px;
+    gap:14px;
 
-    z-index:100;
+    padding:12px;
 
-    padding:12px 18px;
-
-    border-radius:20px;
+    border-radius:18px;
 
     background:rgba(0,0,0,.30);
 
     backdrop-filter:blur(12px);
 
+    z-index:100;
+
+    overflow-x:auto;
+
+    max-width:92%;
+
 }
+
+.thumbnail::-webkit-scrollbar{
+
+    height:6px;
+
+}
+
+.thumbnail::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.25);
+
+    border-radius:20px;
+
+}
+
+/*==============================
+    THUMB ITEM
+==============================*/
 
 .thumbnail .item{
 
-    width:110px;
+    width:95px;
 
-    height:70px;
+    height:65px;
 
-    overflow:hidden;
+    flex:0 0 auto;
 
     border-radius:12px;
 
+    overflow:hidden;
+
     cursor:pointer;
+
+    transition:.35s ease;
 
     border:2px solid transparent;
 
-    transition:.35s;
-
-    flex-shrink:0;
-
 }
 
-.thumbnail .item:hover{
-
-    transform:translateY(-5px);
-
-    border-color:#f1683a;
-
-}
-
-.thumbnail .item.active{
-
-    border-color:#f1683a;
-
-    box-shadow:0 0 15px rgba(241,104,58,.5);
-
-}
-
-.thumbnail img{
+.thumbnail .item img{
 
     width:100%;
 
@@ -499,30 +702,37 @@ nav a:hover::after{
 
 }
 
+.thumbnail .item:hover{
 
-/* ===========================
-   ARROWS
-=========================== */
+    transform:translateY(-5px);
+
+}
+
+.thumbnail .item.active{
+
+    border-color:var(--primary);
+
+    transform:scale(1.08);
+
+    box-shadow:0 10px 30px rgba(247,181,0,.35);
+
+}
+
+/*==============================
+    PREV / NEXT BUTTONS
+==============================*/
 
 .arrows{
 
     position:absolute;
 
-    top:50%;
+    right:35px;
 
-    left:0;
-
-    width:100%;
-
-    transform:translateY(-50%);
+    bottom:135px;
 
     display:flex;
 
-    justify-content:space-between;
-
-    padding:0 35px;
-
-    pointer-events:none;
+    gap:14px;
 
     z-index:200;
 
@@ -530,9 +740,9 @@ nav a:hover::after{
 
 .arrows button{
 
-    width:60px;
+    width:56px;
 
-    height:60px;
+    height:56px;
 
     border:none;
 
@@ -540,139 +750,37 @@ nav a:hover::after{
 
     cursor:pointer;
 
-    pointer-events:auto;
+    font-size:22px;
 
-    font-size:26px;
+    color:#fff;
 
-    color:white;
-
-    background:rgba(255,255,255,.15);
+    background:rgba(255,255,255,.12);
 
     backdrop-filter:blur(12px);
 
-    transition:.35s;
+    transition:.35s ease;
 
 }
 
 .arrows button:hover{
 
-    background:#f1683a;
+    background:var(--primary);
+
+    color:#000;
 
     transform:scale(1.08);
 
 }
 
+/*==============================
+    ACTIVE SLIDE ANIMATION
+==============================*/
 
-/* ===========================
-   PROGRESS BAR
-=========================== */
+.carousel .item.active .content{
 
-.time{
-
-    position:absolute;
-
-    top:0;
-
-    left:0;
-
-    width:0;
-
-    height:4px;
-
-    background:#f1683a;
-
-    z-index:300;
+    animation:fadeUp .8s ease;
 
 }
-
-
-/* ===========================
-   SLIDE ANIMATION
-=========================== */
-
-.carousel .item{
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transform:scale(1.05);
-
-    transition:
-
-    opacity .8s ease,
-
-    transform .8s ease,
-
-    visibility .8s;
-
-}
-
-.carousel .item.active{
-
-    opacity:1;
-
-    visibility:visible;
-
-    transform:scale(1);
-
-}
-
-
-/* ===========================
-   CONTENT ANIMATION
-=========================== */
-
-.author,
-
-.title,
-
-.topic,
-
-.description,
-
-.buttons{
-
-    opacity:0;
-
-    transform:translateY(35px);
-
-}
-
-.carousel .item.active .author{
-
-    animation:fadeUp .6s .2s forwards;
-
-}
-
-.carousel .item.active .title{
-
-    animation:fadeUp .6s .35s forwards;
-
-}
-
-.carousel .item.active .topic{
-
-    animation:fadeUp .6s .50s forwards;
-
-}
-
-.carousel .item.active .description{
-
-    animation:fadeUp .6s .65s forwards;
-
-}
-
-.carousel .item.active .buttons{
-
-    animation:fadeUp .6s .8s forwards;
-
-}
-
-
-/* ===========================
-   KEYFRAMES
-=========================== */
 
 @keyframes fadeUp{
 
@@ -680,7 +788,7 @@ nav a:hover::after{
 
         opacity:0;
 
-        transform:translateY(35px);
+        transform:translateY(40px);
 
     }
 
@@ -694,264 +802,481 @@ nav a:hover::after{
 
 }
 
+/*==============================
+    MOBILE
+==============================*/
 
-/* ===========================
-   IMAGE ZOOM
-=========================== */
+@media (max-width:768px){
 
-.carousel .item.active img{
+    .buttons{
 
-    animation:zoomImage 8s linear forwards;
+        flex-direction:column;
+
+        gap:12px;
+
+    }
+
+    .buttons a{
+
+        width:100%;
+
+        min-width:100%;
+
+        height:48px;
+
+        font-size:14px;
+
+    }
+
+    .thumbnail{
+
+        bottom:18px;
+
+        gap:10px;
+
+        padding:10px;
+
+    }
+
+    .thumbnail .item{
+
+        width:72px;
+
+        height:52px;
+
+    }
+
+    .arrows{
+
+        right:50%;
+
+        transform:translateX(50%);
+
+        bottom:92px;
+
+    }
+
+    .arrows button{
+
+        width:46px;
+
+        height:46px;
+
+        font-size:18px;
+
+    }
+
+}
+/*==================================================
+    PART 4
+    ANIMATIONS • RESPONSIVE • FINAL POLISH
+===================================================*/
+
+/*==============================
+    SLIDE TRANSITIONS
+==============================*/
+
+.carousel .list .item{
+
+    transition:
+        opacity .8s ease,
+        visibility .8s ease;
 
 }
 
-@keyframes zoomImage{
+.carousel .list .item img{
+
+    transition:
+        transform 8s ease,
+        filter .6s ease;
+
+}
+
+.carousel .list .item.active img{
+
+    transform:scale(1.05);
+
+    filter:brightness(1);
+
+}
+
+.carousel .list .item:not(.active) img{
+
+    filter:brightness(.75);
+
+}
+
+/*==============================
+    CONTENT ANIMATION
+==============================*/
+
+.carousel .item.active .author{
+
+    animation:slideDown .7s ease;
+
+}
+
+.carousel .item.active .title{
+
+    animation:slideRight .8s ease;
+
+}
+
+.carousel .item.active .topic{
+
+    animation:fadeIn .9s ease;
+
+}
+
+.carousel .item.active .description{
+
+    animation:fadeUp 1s ease;
+
+}
+
+.carousel .item.active .buttons{
+
+    animation:fadeUp 1.15s ease;
+
+}
+
+@keyframes slideDown{
 
     from{
 
-        transform:scale(1);
+        opacity:0;
+        transform:translateY(-35px);
 
     }
 
     to{
 
-        transform:scale(1.08);
+        opacity:1;
+        transform:translateY(0);
 
     }
 
 }
 
+@keyframes slideRight{
 
-/* ===========================
-   BUTTON HOVER
-=========================== */
+    from{
 
-.buttons a{
+        opacity:0;
+        transform:translateX(-30px);
 
-    position:relative;
+    }
 
-    overflow:hidden;
+    to{
 
-}
+        opacity:1;
+        transform:translateX(0);
 
-.buttons a::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:-100%;
-
-    width:100%;
-
-    height:100%;
-
-    background:rgba(255,255,255,.18);
-
-    transition:.5s;
+    }
 
 }
 
-.buttons a:hover::before{
+@keyframes fadeIn{
 
-    left:100%;
+    from{
 
-}
+        opacity:0;
 
+    }
 
-/* ===========================
-   HEADER EFFECT
-=========================== */
+    to{
 
-header{
+        opacity:1;
 
-    transition:.35s;
-
-}
-
-header:hover{
-
-    background:rgba(0,0,0,.55);
+    }
 
 }
 
+/*==============================
+    TABLET
+==============================*/
 
-/* ===========================
-   LOGO EFFECT
-=========================== */
+@media (max-width:1024px){
 
-.logo{
+    header{
 
-    transition:.35s;
+        padding:18px 30px;
 
-}
+    }
 
-.logo:hover{
+    .logo{
 
-    color:#f1683a;
+        font-size:26px;
 
-}
+    }
 
+    nav{
 
-/* ===========================
-   DESCRIPTION SCROLLBAR
-=========================== */
+        gap:20px;
 
-.description::-webkit-scrollbar{
+    }
 
-    width:8px;
+    nav a{
 
-}
+        font-size:15px;
 
-.description::-webkit-scrollbar-track{
+    }
 
-    background:rgba(255,255,255,.08);
+    .content{
 
-}
+        width:460px;
 
-.description::-webkit-scrollbar-thumb{
+        left:5%;
 
-    background:#f1683a;
+    }
 
-    border-radius:20px;
+    .author{
 
-}
+        font-size:40px;
 
+    }
 
-/* ===========================
-   IMAGE SHADOW
-=========================== */
+    .topic{
 
-.carousel img{
+        font-size:28px;
 
-    filter:brightness(.92);
-
-}
-
-
-/* ===========================
-   HOVER LIFT
-=========================== */
-
-.content{
-
-    transition:.35s;
+    }
 
 }
 
-.content:hover{
+/*==============================
+    MOBILE
+==============================*/
 
-    transform:translateY(-50%) translateX(5px);
+@media (max-width:768px){
 
-    box-shadow:
+    body{
 
-    0 20px 60px rgba(0,0,0,.55);
+        overflow:hidden;
+
+    }
+
+    header{
+
+        padding:15px 18px;
+
+        flex-direction:column;
+
+        gap:12px;
+
+        background:rgba(0,0,0,.65);
+
+        backdrop-filter:blur(12px);
+
+    }
+
+    .logo{
+
+        font-size:22px;
+
+        letter-spacing:2px;
+
+        text-align:center;
+
+    }
+
+    nav{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:14px;
+
+    }
+
+    nav a{
+
+        font-size:14px;
+
+    }
+
+    .carousel{
+
+        min-height:100vh;
+
+        min-height:100dvh;
+
+    }
+
+    /* Better image positioning */
+
+    .carousel .item img{
+
+        object-fit:cover;
+
+        object-position:center top;
+
+    }
+
+    /* Smaller glass card */
+
+    .content{
+
+        width:90%;
+
+        max-width:360px;
+
+        top:60%;
+
+        left:50%;
+
+        transform:translate(-50%,-50%);
+
+        padding:18px;
+
+        max-height:55vh;
+
+        overflow-y:auto;
+
+    }
+
+    .author{
+
+        font-size:28px;
+
+    }
+
+    .title{
+
+        font-size:15px;
+
+    }
+
+    .topic{
+
+        font-size:22px;
+
+    }
+
+    .description{
+
+        font-size:13px;
+
+        line-height:1.6;
+
+    }
 
 }
-/* =====================================================
-   HASAN DAOUD PORTFOLIO
-   STYLE.CSS - PART 3
-   Responsive + Final Polish
-===================================================== */
 
+/*==============================
+    VERY SMALL PHONES
+==============================*/
 
-/* ==========================================
-   REMOVE BLUE HIGHLIGHT
-========================================== */
+@media (max-width:480px){
 
-*{
-    -webkit-tap-highlight-color: transparent;
+    .content{
+
+        width:92%;
+
+        top:62%;
+
+        padding:15px;
+
+        max-height:52vh;
+
+    }
+
+    .author{
+
+        font-size:24px;
+
+    }
+
+    .title{
+
+        font-size:14px;
+
+    }
+
+    .topic{
+
+        font-size:20px;
+
+    }
+
+    .description{
+
+        font-size:12px;
+
+    }
+
+    .thumbnail{
+
+        display:none;
+
+    }
+
+    .arrows{
+
+        bottom:20px;
+
+    }
+
 }
 
+/*==============================
+    ACCESSIBILITY
+==============================*/
 
-/* ==========================================
-   SMOOTH TRANSITIONS
-========================================== */
+button,
+a{
 
-*{
-    transition:
-        background .25s ease,
-        color .25s ease,
-        border-color .25s ease,
-        box-shadow .25s ease;
+    -webkit-tap-highlight-color:transparent;
+
 }
-
-
-/* ==========================================
-   FOCUS STYLE
-========================================== */
 
 button:focus,
 a:focus{
-    outline:2px solid #f1683a;
-    outline-offset:4px;
-}
 
+    outline:2px solid var(--primary);
 
-/* ==========================================
-   SELECTION
-========================================== */
-
-::selection{
-
-    background:#f1683a;
-
-    color:#fff;
+    outline-offset:3px;
 
 }
 
+/*==============================
+    PERFORMANCE
+==============================*/
 
-/* ==========================================
-   CONTENT SPACING
-========================================== */
+.carousel .item,
+.carousel .item img,
+.content{
 
-.description p{
+    will-change:transform, opacity;
 
-    margin-bottom:18px;
+}
+/*==================================================
+    PART 5
+    FINAL POLISH & BUG FIXES
+===================================================*/
+
+
+/*==============================
+    NAVIGATION ACTIVE LINK
+==============================*/
+
+nav a.active{
+
+    color:var(--primary);
 
 }
 
-.description strong{
+nav a.active::after{
 
-    color:#f1683a;
-
-}
-
-.description h2{
-
-    margin-bottom:18px;
-
-}
-
-.description h3{
-
-    font-size:22px;
+    width:100%;
 
 }
 
 
-/* ==========================================
-   LIST STYLE
-========================================== */
-
-.description ul{
-
-    margin-top:12px;
-
-}
-
-.description li{
-
-    padding-left:6px;
-
-}
-
-
-/* ==========================================
-   BUTTON ACTIVE
-========================================== */
+/*==============================
+    BUTTON CLICK EFFECT
+==============================*/
 
 .buttons a:active{
 
@@ -959,122 +1284,237 @@ a:focus{
 
 }
 
+.arrows button:active{
 
-/* ==========================================
-   IMAGE HOVER
-========================================== */
+    transform:scale(.90);
+
+}
+
+
+/*==============================
+    THUMBNAIL CLICK EFFECT
+==============================*/
+
+.thumbnail .item:active{
+
+    transform:scale(.95);
+
+}
+
+
+/*==============================
+    IMAGE LOADING EFFECT
+==============================*/
 
 .carousel .item img{
 
-    transition:transform 8s linear;
+    opacity:0;
+
+    animation:imageFade 1.2s forwards;
+
+}
+
+@keyframes imageFade{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
 
 }
 
 
-/* ==========================================
-   GLASS EFFECT
-========================================== */
+/*==============================
+    GLASS PANEL IMPROVEMENT
+==============================*/
 
 .content{
 
-    background:rgba(10,10,10,.45);
+    border:1px solid rgba(255,255,255,.18);
 
-    backdrop-filter:blur(18px);
-
-}
-
-
-/* ==========================================
-   SHADOW
-========================================== */
-
-.content{
-
-    border:1px solid rgba(255,255,255,.10);
+    background:rgba(20,20,20,.34);
 
 }
 
 
-/* ==========================================
-   TABLET
-========================================== */
+/*==============================
+    BETTER TEXT SELECTION
+==============================*/
 
-@media (max-width:1200px){
+::selection{
+
+    background:var(--primary);
+
+    color:#000;
+
+}
+
+
+/*==============================
+    REMOVE BLUE TAP COLOR
+==============================*/
+
+*{
+
+    -webkit-tap-highlight-color:transparent;
+
+}
+
+
+/*==============================
+    SMOOTH SCROLLBAR
+==============================*/
+
+html{
+
+    scrollbar-width:thin;
+
+}
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:30px;
+
+}
+
+
+/*==============================
+    MOBILE HEADER FIX
+==============================*/
+
+@media (max-width:768px){
 
 header{
 
-    padding:0 40px;
-
-}
-
-.content{
-
-    left:5%;
-
-    width:600px;
-
-}
-
-.author{
-
-    font-size:52px;
-
-}
-
-.topic{
-
-    font-size:34px;
-
-}
-
-}
-
-
-/* ==========================================
-   SMALL TABLET
-========================================== */
-
-@media (max-width:992px){
-
-header{
-
-    height:70px;
-
-    padding:0 25px;
-
-}
-
-.logo{
-
-    font-size:24px;
+    padding:12px 15px;
 
 }
 
 nav{
 
-    gap:20px;
+    row-gap:8px;
 
 }
 
-nav a{
+}
 
-    font-size:15px;
+
+/*==============================
+    MOBILE IMAGE FIX
+==============================*/
+
+@media (max-width:768px){
+
+.carousel .item img{
+
+    object-fit:cover;
+
+    object-position:center top;
 
 }
+
+}
+
+
+/*==============================
+    VERY SMALL DEVICES
+==============================*/
+
+@media (max-width:480px){
 
 .content{
 
-    width:90%;
+    width:92%;
 
-    left:5%;
+    max-height:50vh;
 
-    padding:35px;
+    padding:14px;
 
 }
 
 .author{
 
-    font-size:44px;
+    font-size:22px;
+
+}
+
+.title{
+
+    font-size:13px;
+
+}
+
+.topic{
+
+    font-size:18px;
+
+}
+
+.description{
+
+    font-size:12px;
+
+}
+
+.buttons{
+
+    margin-top:18px;
+
+}
+
+.buttons a{
+
+    height:44px;
+
+    font-size:13px;
+
+}
+
+}
+
+
+/*==============================
+    LARGE MONITORS
+==============================*/
+
+@media (min-width:1600px){
+
+.content{
+
+    width:620px;
+
+}
+
+.author{
+
+    font-size:60px;
+
+}
+
+.topic{
+
+    font-size:42px;
 
 }
 
@@ -1084,249 +1524,74 @@ nav a{
 
 }
 
-.topic{
-
-    font-size:32px;
-
-}
-
 .description{
 
-    font-size:16px;
-
-    max-height:240px;
+    font-size:17px;
 
 }
 
-.thumbnail{
+}
+
+
+/*==============================
+    REDUCE ANIMATION
+==============================*/
+
+@media (prefers-reduced-motion:reduce){
+
+*{
+
+    animation:none !important;
+
+    transition:none !important;
+
+}
+
+}
+
+
+/*==============================
+    PRINT
+==============================*/
+
+@media print{
+
+header,
+.thumbnail,
+.arrows,
+.time{
 
     display:none;
 
 }
 
-}
+body{
 
+    background:#fff;
 
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media (max-width:768px){
-
-header{
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    gap:10px;
-
-    height:auto;
-
-    padding:15px;
-
-}
-
-nav{
-
-    flex-wrap:wrap;
-
-    justify-content:center;
+    color:#000;
 
 }
 
 .content{
 
-    position:absolute;
-
-    left:50%;
-
-    top:54%;
-
-    transform:translate(-50%,-50%);
-
-    width:92%;
-
-    padding:25px;
-
-}
-
-.author{
-
-    font-size:34px;
-
-    letter-spacing:1px;
-
-}
-
-.title{
-
-    font-size:18px;
-
-}
-
-.topic{
-
-    font-size:28px;
-
-}
-
-.description{
-
-    max-height:220px;
-
-    font-size:15px;
-
-    line-height:1.7;
-
-}
-
-.buttons{
-
-    flex-direction:column;
-
-}
-
-.buttons a{
+    position:static;
 
     width:100%;
 
-    text-align:center;
+    transform:none;
 
-}
+    background:none;
 
-.arrows{
+    color:#000;
 
-    padding:0 15px;
-
-}
-
-.arrows button{
-
-    width:45px;
-
-    height:45px;
-
-    font-size:20px;
+    box-shadow:none;
 
 }
 
 }
 
 
-/* ==========================================
-   SMALL PHONES
-========================================== */
-
-@media (max-width:480px){
-
-.author{
-
-    font-size:28px;
-
-}
-
-.title{
-
-    font-size:16px;
-
-}
-
-.topic{
-
-    font-size:24px;
-
-}
-
-.description{
-
-    max-height:180px;
-
-    font-size:14px;
-
-}
-
-.logo{
-
-    font-size:20px;
-
-}
-
-nav a{
-
-    font-size:14px;
-
-}
-
-}
-
-
-/* ==========================================
-   LARGE DESKTOP
-========================================== */
-
-@media (min-width:1600px){
-
-.content{
-
-    width:760px;
-
-}
-
-.author{
-
-    font-size:70px;
-
-}
-
-.title{
-
-    font-size:28px;
-
-}
-
-.topic{
-
-    font-size:46px;
-
-}
-
-.description{
-
-    font-size:19px;
-
-}
-
-}
-
-
-/* ==========================================
-   OPTIONAL
-   Disable automatic image selection
-========================================== */
-
-img{
-
-    user-select:none;
-
-    -webkit-user-drag:none;
-
-}
-
-
-/* ==========================================
-   OPTIONAL
-   Better button cursor
-========================================== */
-
-button,
-.buttons a{
-
-    cursor:pointer;
-
-}
-
-
-/* ==========================================
-   END
-========================================== */   
+/*==================================================
+        END OF STYLE.CSS
+===================================================*/
